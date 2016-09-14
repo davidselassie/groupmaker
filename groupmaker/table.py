@@ -1,6 +1,4 @@
 """Functions to print tables of student pairings."""
-import sys
-
 from tabulate import tabulate
 
 from .scoring import calc_pair_to_count_of_groups_set
@@ -45,7 +43,7 @@ def calc_names_count_matrix(names, groups_set):
     return names, count_matrix
 
 
-def print_name_count_matrix(names, count_matrix, file=sys.stdout):
+def print_name_count_matrix(names, count_matrix, file=None):
     """Print a matrix of names and counts.
 
     >>> print_name_count_matrix(['A', 'B', 'C'],
@@ -62,7 +60,7 @@ def print_name_count_matrix(names, count_matrix, file=sys.stdout):
     print(tabulate(table, names, tablefmt='psql'), file=file)
 
 
-def calc_print_name_count_matrix(names, groups_set, file=sys.stdout):
+def calc_print_name_count_matrix(names, groups_set, file=None):
     """Calculate and print a matrix of names to counts."""
     historical_names, historical_count_matrix = calc_names_count_matrix(
         names,

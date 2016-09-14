@@ -1,7 +1,7 @@
 """Functions that generate groups."""
 from itertools import permutations, zip_longest
 
-from ._testing import rlist
+from ._testing import rlist, rsorted
 
 
 def _chunk(iterable, size):
@@ -25,6 +25,6 @@ def all_groups_set(students, group_size):
      [['A', 'C'], ['B', None]],
      [['A', None], ['B', 'C']]]
     """
-    return frozenset(frozenset(tuple(group)
+    return frozenset(frozenset(frozenset(group)
                                for group in _chunk(ordering, group_size))
                      for ordering in permutations(students))

@@ -1,6 +1,10 @@
 __pycache__
 
-.idea
+/*.egg-info
+
+/.tox
+
+/.idea
 .cache
 
 .DS_Store

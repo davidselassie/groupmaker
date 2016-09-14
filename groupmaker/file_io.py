@@ -34,7 +34,7 @@ def parse_groups_file(groups_file):
     r"""Take a groups file and return all of the groups in it.
 
     >>> list(parse_groups_file(['A\n', 'B\n', '\n', 'C\n']))
-    [('A', 'B'), ('C')]
+    [('A', 'B'), ('C',)]
     """
     working_group = set()
     for name in map(str.strip, chain(groups_file, [''])):
@@ -45,7 +45,7 @@ def parse_groups_file(groups_file):
             working_group = set()
 
 
-def print_groups_file(groups, file=sys.stdout):
+def print_groups_file(groups, file=None):
     """Print out a groups file.
 
     >>> print_groups_file([('A', 'B'), ('C', None)])
