@@ -1,3 +1,4 @@
+"""Package definition for groupmaker."""
 from setuptools import setup
 
 
@@ -11,7 +12,7 @@ setup(
     license='BSD',
     packages=['groupmaker'],
     scripts=[
-        'groupmaker',
+        'bin/groupmaker',
     ],
     install_requires=[
         'tabulate',
