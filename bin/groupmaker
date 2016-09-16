@@ -5,9 +5,12 @@ with the fewest times before.
 import argparse
 import sys
 
-from groupmaker.file_io import read_students, read_group_configs, write_group_config
+from groupmaker.counting import count_pairs
+from groupmaker.file_io import read_group_configs, read_students, \
+    write_group_config
+from groupmaker.pairing import calc_pairs_in_group_configs
 from groupmaker.solver import solve_for_min_scoring_groups
-from groupmaker.table import calc_print_name_count_matrix
+from groupmaker.table import print_student_pair_count_matrix
 
 
 def main(students_file_path, group_size, historical_groups_file_paths,
@@ -21,12 +24,15 @@ def main(students_file_path, group_size, historical_groups_file_paths,
     historical_group_configs = list(
         read_group_configs(historical_groups_file_paths))
 
+    historical_pair_counts = count_pairs(
+        calc_pairs_in_group_configs(historical_group_configs))
+
     if verbosity > 0:
-        calc_print_name_count_matrix(
-            students, historical_group_configs, file=sys.stderr)
+        print_student_pair_count_matrix(
+            students, historical_pair_counts, file=sys.stderr)
 
     min_scoring_group_config = solve_for_min_scoring_groups(
-        students, group_size, historical_group_configs)
+        students, group_size, historical_pair_counts)
     write_group_config(min_scoring_group_config)
 
 

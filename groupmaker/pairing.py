@@ -31,8 +31,8 @@ def calc_pairs_in_group_config(group_config):
     >>> list(calc_pairs_in_group_config(GroupConfig(Group('A', 'B'), Group('C'))))
     [Pair('A', 'A'), Pair('A', 'B'), Pair('B', 'B'), Pair('C', 'C')]
     """
-    return chain.from_iterable(calc_pairs_in_group(group) for group in
-                     group_config.groups)
+    return chain.from_iterable(
+        calc_pairs_in_group(group) for group in group_config.groups)
 
 
 def calc_pairs_in_group_configs(group_configs):

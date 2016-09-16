@@ -1,44 +1,47 @@
 """Functions to print tables of student pairings."""
 from tabulate import tabulate
 
+from .models import Pair
+from .models import Students
 from .models import PairCounts
 
 
+def print_student_pair_count_matrix(students, pair_counts, file=None):
+    """Print out a matrix of pair counts of all students.
 
-def calc_names_count_matrix(names, groups_set):
+    >>> print_student_pair_count_matrix(
+    ...     Students('A', 'B'),
+    ...     PairCounts((Pair('A', 'A'), 2), (Pair('A', 'B'), 1)))
+    +----+-----+-----+
+    |    |   A |   B |
+    |----+-----+-----|
+    | A  |   2 |   1 |
+    | B  |   1 |   0 |
+    +----+-----+-----+
+    """
+    pair_count_matrix = _calc_pair_count_matrix(students, pair_counts)
+    _print_student_pair_count_matrix(students, pair_count_matrix, file)
+
+
+def _calc_pair_count_matrix(students, pair_counts):
     """Produce a matrix of how often names have been paired together in a set
     of groups.
 
     Returns an ordered list of names and the matrix in that order.
 
-    >>> calc_names_count_matrix(['A', 'B'],
-    ...                         [[['A', 'B']], [['A']]])
-    (['A', 'B'], [[2, 1], [1, 1]])
-    >>> calc_names_count_matrix(['B', 'A'],
-    ...                         [[['A', 'B']], [['A']]])
-    (['A', 'B'], [[2, 1], [1, 1]])
-    >>> calc_names_count_matrix(['A', 'B'],
-    ...                         [[['A']], [['A']]])
-    (['A', 'B'], [[2, 0], [0, 0]])
+    >>> _calc_pair_count_matrix(
+    ...     Students('A', 'B'),
+    ...     PairCounts((Pair('A', 'A'), 2), (Pair('A', 'B'), 1)))
+    [[2, 1], [1, 0]]
     """
-    names = sorted(names)
-    pair_to_count = calc_pair_to_count_of_groups_set(groups_set)
-    count_matrix = [
-        [
-            pair_to_count.get(_pair(name1, name2), 0)
-            for name2
-            in names
-        ]
-        for name1
-        in names
-    ]
-    return names, count_matrix
+    return [[pair_counts.get_count(Pair(name1, name2))
+                     for name2 in students.names] for name1 in students.names]
 
 
-def print_name_count_matrix(names, count_matrix, file=None):
-    """Print a matrix of names and counts.
+def _print_student_pair_count_matrix(students, count_matrix, file=None):
+    """Print a matrix of students and counts.
 
-    >>> print_name_count_matrix(['A', 'B', 'C'],
+    >>> _print_student_pair_count_matrix(Students('A', 'B', 'C'),
     ...                         [[0, 1, 1], [1, 0, 2], [1, 2, 0]])
     +----+-----+-----+-----+
     |    |   A |   B |   C |
@@ -48,13 +51,6 @@ def print_name_count_matrix(names, count_matrix, file=None):
     | C  |   1 |   2 |   0 |
     +----+-----+-----+-----+
     """
-    table = [[name] + counts for name, counts in zip(names, count_matrix)]
-    print(tabulate(table, names, tablefmt='psql'), file=file)
-
-
-def calc_print_name_count_matrix(names, groups_set, file=None):
-    """Calculate and print a matrix of names to counts."""
-    historical_names, historical_count_matrix = calc_names_count_matrix(
-        names,
-        groups_set)
-    print_name_count_matrix(historical_names, historical_count_matrix, file=file)
+    table = [[name] + counts
+             for name, counts in zip(students.names, count_matrix)]
+    print(tabulate(table, students.names, tablefmt='psql'), file=file)

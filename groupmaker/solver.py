@@ -1,12 +1,11 @@
 """Functions for finding best groups."""
-from .counting import count_pairs
 from .generation import generate_all_group_configs
 from .models import Group
 from .models import GroupConfig
 from .models import Pair
 from .models import PairCounts
 from .models import Students
-from .pairing import calc_pairs_in_group_config, calc_pairs_in_group_configs
+from .pairing import calc_pairs_in_group_config
 from .scoring import score_pairs
 
 
@@ -29,18 +28,16 @@ def find_min_scoring_group_config(group_configs, historical_pair_counts):
 
 
 def solve_for_min_scoring_groups(students, group_size,
-                                 historical_group_configs):
+                                 historical_pair_counts):
     """Figure out what is the minimum-scoring group config out of all possible
     group configs creatable from a list of students.
 
     >>> solve_for_min_scoring_groups(
     ...     Students('A', 'B', 'C'),
     ...     2,
-    ...     [GroupConfig(Group('A', 'B')), GroupConfig(Group('B', 'C'))])
+    ...     PairCounts((Pair('A', 'B'), 1), (Pair('B', 'C'), 1)))
     GroupConfig(Group('A', 'C'), Group('B'))
     """
     all_group_configs = generate_all_group_configs(students, group_size)
-    historical_pair_counts = count_pairs(
-        calc_pairs_in_group_configs(historical_group_configs))
     return find_min_scoring_group_config(all_group_configs,
                                          historical_pair_counts)
