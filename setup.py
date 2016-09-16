@@ -3,16 +3,18 @@ from setuptools import setup
 
 setup(
     name='groupmaker',
-    version='0.2.0',
+    version='0.2.1',
     description='Command line tool for making classroom groups.',
     url='https://github.com/selassid/groupmaker',
     author='David Selassie',
     author_email='selassid@gmail.com',
     license='BSD',
     packages=['groupmaker'],
-    scripts=[
-        'bin/groupmaker',
-    ],
+    entry_points={
+        'console_scripts': [
+            'groupmaker = groupmaker.scripts.groupmaker:main',
+        ]
+    },
     install_requires=[
         'tabulate',
     ],

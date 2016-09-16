@@ -14,7 +14,7 @@ from groupmaker.solver import solve_for_min_scoring_groups
 from groupmaker.table import print_student_pair_count_matrix
 
 
-def main(
+def _run_main(
         students_file_path, group_size, historical_groups_file_paths, verbosity
 ):
     """Read a list of students, a requested group size, and historical groups,
@@ -42,7 +42,8 @@ def main(
     write_group_config(min_scoring_group_config)
 
 
-if __name__ == '__main__':
+def main():
+    """Command line script entry point."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         '-n',
@@ -74,7 +75,7 @@ if __name__ == '__main__':
     )
 
     args = parser.parse_args()
-    main(
+    _run_main(
         args.student_file_path, args.group_size,
         args.historical_groups_file_paths, args.verbosity
     )
