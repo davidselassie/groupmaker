@@ -1,16 +1,8 @@
 """Functions to print tables of student pairings."""
 from tabulate import tabulate
 
-from .scoring import calc_pair_to_count_of_groups_set
+from .models import PairCounts
 
-
-def _pair(name1, name2):
-    """Manually pair two names in order for comparison to a pair count dict.
-
-    >>> _pair('B', 'A')
-    ('A', 'B')
-    """
-    return tuple(sorted((name1, name2)))
 
 
 def calc_names_count_matrix(names, groups_set):

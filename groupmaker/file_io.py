@@ -5,54 +5,68 @@ A student file contains one student name on each line.
 A groups file contains a student name on each line with a blank line
 between groups.
 """
-import sys
 from itertools import chain
 
+from .models import Group
+from .models import GroupConfig
+from .models import Students
 
-def parse_students_file(students_file):
+
+def read_students(students_file):
     r"""Read student file and return a sorted list of the students.
 
-    >>> parse_students_file(['B\n', 'A\n', '\n'])
-    ('A', 'B')
+    >>> read_students(['A\n', 'B\n', '\n'])
+    Students('A', 'B')
     """
-    unique_names = (frozenset(name.strip() for name in students_file) -
-                    frozenset({''}))
-    return tuple(sorted(unique_names))
+    names = [name.strip() for name in students_file if name.strip() != '']
+    return Students(*names)
 
 
-def parse_groups_file_paths(groups_file_paths):
-    """Read all historical groups from a list of groups file paths.
-
-    Return a set of all historical groups.
+def read_group_configs(group_config_file_paths):
+    """Yield all historical group configs from a list of group config file
+    paths.
     """
-    for groups_file_path in groups_file_paths:
-        with open(groups_file_path) as groups_file:
-            yield tuple(parse_groups_file(groups_file))
+    for group_config_file_path in group_config_file_paths:
+        with open(group_config_file_path) as group_config_file:
+            yield read_group_config(group_config_file)
 
 
-def parse_groups_file(groups_file):
-    r"""Take a groups file and return all of the groups in it.
+def _read_yield_group_config(group_config_file):
+    r"""Yield groups from a group config file.
 
-    >>> list(parse_groups_file(['A\n', 'B\n', '\n', 'C\n']))
-    [('A', 'B'), ('C',)]
+    >>> list(_read_yield_group_config(['A\n', 'B\n', '\n', 'C\n']))
+    [Group('A', 'B'), Group('C')]
     """
-    working_group = set()
-    for name in map(str.strip, chain(groups_file, [''])):
+    working_names = set()
+    for name in map(str.strip, chain(group_config_file, [''])):
         if name != '':
-            working_group.add(name)
-        elif len(working_group) > 0:
-            yield tuple(sorted(working_group))
-            working_group = set()
+            working_names.add(name)
+        elif len(working_names) > 0:
+            yield Group(*working_names)
+            working_names = set()
 
 
-def print_groups_file(groups, file=None):
-    """Print out a groups file.
+def read_group_config(group_config_file):
+    r"""Read a group config file.
 
-    >>> print_groups_file([('A', 'B'), ('C', None)])
+    >>> read_group_config(['A\n', 'B\n', '\n', 'C\n'])
+    GroupConfig(Group('A', 'B'), Group('C'))
+    """
+    return GroupConfig(*_read_yield_group_config(group_config_file))
+
+
+def write_group_config(group_config, file=None):
+    """Write out a group config file.
+
+    Writes to std out by default.
+
+    >>> write_group_config(GroupConfig(Group('A', 'B'), Group('C')))
     A
     B
     <BLANKLINE>
     C
     """
-    print('\n\n'.join('\n'.join(student for student in group
-                                if student is not None) for group in groups), file=file)
+    print(
+        '\n\n'.join('\n'.join(name for name in group.names)
+                    for group in group_config.groups),
+        file=file)
