@@ -26,7 +26,9 @@ class Group:
         """
         duplicate_names = sorted(find_duplicates(names))
         if len(duplicate_names) > 0:
-            raise ValueError('duplicate names in group: {!r}'.format(duplicate_names))
+            raise ValueError(
+                'duplicate names in group: {!r}'.format(duplicate_names)
+            )
         self.names = tuple(sorted(names))
 
     def __eq__(self, other):

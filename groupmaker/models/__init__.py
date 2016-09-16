@@ -1,7 +1,6 @@
 """All group-making container types."""
-from .pair import Pair
 from .group import Group
 from .group_config import GroupConfig
-from .students import Students
-
+from .pair import Pair
 from .pair_counts import PairCounts
+from .students import Students

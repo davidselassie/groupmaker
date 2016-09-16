@@ -1,3 +1,5 @@
 [style]
 based_on_style = pep8
 spaces_around_power_operator = true
+dedent_closing_brackets = true
+split_before_first_argument = true

@@ -1,7 +1,6 @@
 """Package definition for groupmaker."""
 from setuptools import setup
 
-
 setup(
     name='groupmaker',
     version='0.2.0',
@@ -17,5 +16,5 @@ setup(
     install_requires=[
         'tabulate',
     ],
-    zip_safe=True,
+    zip_safe=True
 )

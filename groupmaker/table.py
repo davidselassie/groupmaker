@@ -2,8 +2,8 @@
 from tabulate import tabulate
 
 from .models import Pair
-from .models import Students
 from .models import PairCounts
+from .models import Students
 
 
 def print_student_pair_count_matrix(students, pair_counts, file=None):
@@ -34,8 +34,12 @@ def _calc_pair_count_matrix(students, pair_counts):
     ...     PairCounts((Pair('A', 'A'), 2), (Pair('A', 'B'), 1)))
     [[2, 1], [1, 0]]
     """
-    return [[pair_counts.get_count(Pair(name1, name2))
-                     for name2 in students.names] for name1 in students.names]
+    return [
+        [
+            pair_counts.get_count(Pair(name1, name2))
+            for name2 in students.names
+        ] for name1 in students.names
+    ]
 
 
 def _print_student_pair_count_matrix(students, count_matrix, file=None):
@@ -51,6 +55,7 @@ def _print_student_pair_count_matrix(students, count_matrix, file=None):
     | C  |   1 |   2 |   0 |
     +----+-----+-----+-----+
     """
-    table = [[name] + counts
-             for name, counts in zip(students.names, count_matrix)]
+    table = [
+        [name] + counts for name, counts in zip(students.names, count_matrix)
+    ]
     print(tabulate(table, students.names, tablefmt='psql'), file=file)

@@ -59,6 +59,9 @@ def generate_all_group_configs(students, group_size):
      GroupConfig(Group('A', 'B'), Group('C')),
      GroupConfig(Group('A', 'C'), Group('B'))]
     """
-    return sorted(frozenset(GroupConfig(*_groups_from_ordering(ordering,
-                                                           group_size))
-            for ordering in permutations(students.names)))
+    return sorted(
+        frozenset(
+            GroupConfig(*_groups_from_ordering(ordering, group_size))
+            for ordering in permutations(students.names)
+        )
+    )

@@ -67,6 +67,9 @@ def write_group_config(group_config, file=None):
     C
     """
     print(
-        '\n\n'.join('\n'.join(name for name in group.names)
-                    for group in group_config.groups),
-        file=file)
+        '\n\n'.join(
+            '\n'.join(name for name in group.names)
+            for group in group_config.groups
+        ),
+        file=file
+    )

@@ -1,9 +1,9 @@
 """Functions for counting pairs in historical groups."""
 from itertools import chain, combinations_with_replacement
 
-from .models import Pair
 from .models import Group
 from .models import GroupConfig
+from .models import Pair
 
 
 def _tuple_to_pair(t):
@@ -32,7 +32,8 @@ def calc_pairs_in_group_config(group_config):
     [Pair('A', 'A'), Pair('A', 'B'), Pair('B', 'B'), Pair('C', 'C')]
     """
     return chain.from_iterable(
-        calc_pairs_in_group(group) for group in group_config.groups)
+        calc_pairs_in_group(group) for group in group_config.groups
+    )
 
 
 def calc_pairs_in_group_configs(group_configs):
@@ -47,4 +48,5 @@ def calc_pairs_in_group_configs(group_configs):
     """
     return chain.from_iterable(
         calc_pairs_in_group_config(group_config)
-        for group_config in group_configs)
+        for group_config in group_configs
+    )

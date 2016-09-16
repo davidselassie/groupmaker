@@ -2,7 +2,6 @@
 from itertools import chain
 
 from ._util_functions import find_duplicates
-
 from .group import Group
 
 
@@ -29,7 +28,11 @@ class GroupConfig:
         all_names = chain.from_iterable(group.names for group in groups)
         duplicate_names = sorted(find_duplicates(all_names))
         if len(duplicate_names) > 0:
-            raise ValueError('duplicate names across groups in group config: {!r}'.format(duplicate_names))
+            raise ValueError(
+                'duplicate names across groups in group config: {!r}'.format(
+                    duplicate_names
+                )
+            )
         self.groups = tuple(sorted(groups))
 
     def __eq__(self, other):

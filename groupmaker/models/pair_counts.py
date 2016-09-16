@@ -53,8 +53,9 @@ class PairCounts:
         >>> repr(PairCounts())
         'PairCounts()'
         """
-        pair_count_arg_list = ', '.join(repr(item) for item in sorted(
-            self._counter.items()))
+        pair_count_arg_list = ', '.join(
+            repr(item) for item in sorted(self._counter.items())
+        )
         return 'PairCounts({})'.format(pair_count_arg_list)
 
     def get_count(self, pair):
