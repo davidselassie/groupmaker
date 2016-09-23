@@ -2,9 +2,9 @@
 """Make student groups, ensuring that students work with those they have worked
 with the fewest times before.
 """
-import sys
-
 import argparse
+import sys
+from typing import Iterable
 
 from groupmaker.counting import count_pairs
 from groupmaker.file_io import read_group_configs, read_students, \
@@ -15,8 +15,9 @@ from groupmaker.table import print_student_pair_count_matrix
 
 
 def _run_main(
-        students_file_path, group_size, historical_groups_file_paths, verbosity
-):
+        students_file_path: str, group_size: int, historical_groups_file_paths:
+        Iterable[str], verbosity: int
+) -> None:
     """Read a list of students, a requested group size, and historical groups,
     then generate a new group of the requested size with the fewest students
     that have worked together before.
@@ -42,7 +43,7 @@ def _run_main(
     write_group_config(min_scoring_group_config)
 
 
-def main():
+def main() -> None:
     """Command line script entry point."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(

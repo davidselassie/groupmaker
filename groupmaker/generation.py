@@ -1,12 +1,16 @@
 """Functions for generating group configs from students."""
 from itertools import permutations, zip_longest
+from typing import Iterable
+from typing import TypeVar
 
 from .models import Group
 from .models import GroupConfig
 from .models import Students
 
+T = TypeVar('T')
 
-def _is_not_none(x):
+
+def _is_not_none(x) -> bool:
     """Return if a value is not None.
 
     >>> _is_not_none(1)
@@ -17,7 +21,7 @@ def _is_not_none(x):
     return x is not None
 
 
-def _filter_nones(iterable):
+def _filter_nones(iterable: Iterable) -> Iterable:
     """Filter all Nones out of an iterable.
 
     >>> list(_filter_nones([None, 1, None, 2, None]))
@@ -26,7 +30,7 @@ def _filter_nones(iterable):
     return filter(_is_not_none, iterable)
 
 
-def _chunk(iterable, size):
+def _chunk(iterable: Iterable[T], size: int) -> Iterable[Iterable[T]]:
     """Take an iterable and chunk it into iterables of a given size.
     Last chunk might be shorter.
 
@@ -38,7 +42,8 @@ def _chunk(iterable, size):
     return map(_filter_nones, chunks)
 
 
-def _groups_from_ordering(ordering, group_size):
+def _groups_from_ordering(ordering: Iterable[str], group_size:
+                          int) -> Iterable[Group]:
     """Yield groups from an ordering of students by chunking every group size.
 
     >>> list(_groups_from_ordering(['A', 'B', 'C'], 2))
@@ -47,7 +52,8 @@ def _groups_from_ordering(ordering, group_size):
     return (Group(*names) for names in _chunk(ordering, group_size))
 
 
-def generate_all_group_configs(students, group_size):
+def generate_all_group_configs(students: Students, group_size:
+                               int) -> Iterable[GroupConfig]:
     """Yield all possible unique groups of a given size from all students.
 
     Generates every unique ordering of students, then chunks each into groups.

@@ -6,13 +6,14 @@ A groups file contains a student name on each line with a blank line
 between groups.
 """
 from itertools import chain
+from typing import Iterable
 
 from .models import Group
 from .models import GroupConfig
 from .models import Students
 
 
-def read_students(students_file):
+def read_students(students_file: Iterable) -> Students:
     r"""Read student file and return a sorted list of the students.
 
     >>> read_students(['A\n', 'B\n', '\n'])
@@ -22,7 +23,8 @@ def read_students(students_file):
     return Students(*names)
 
 
-def read_group_configs(group_config_file_paths):
+def read_group_configs(group_config_file_paths:
+                       Iterable[str]) -> Iterable[GroupConfig]:
     """Yield all historical group configs from a list of group config file
     paths.
     """
@@ -31,10 +33,11 @@ def read_group_configs(group_config_file_paths):
             yield read_group_config(group_config_file)
 
 
-def _read_yield_group_config(group_config_file):
+def _read_yield_group_config_groups(group_config_file:
+                                    Iterable[str]) -> Iterable[Group]:
     r"""Yield groups from a group config file.
 
-    >>> list(_read_yield_group_config(['A\n', 'B\n', '\n', 'C\n']))
+    >>> list(_read_yield_group_config_groups(['A\n', 'B\n', '\n', 'C\n']))
     [Group('A', 'B'), Group('C')]
     """
     working_names = set()
@@ -46,16 +49,16 @@ def _read_yield_group_config(group_config_file):
             working_names = set()
 
 
-def read_group_config(group_config_file):
+def read_group_config(group_config_file: Iterable[str]) -> GroupConfig:
     r"""Read a group config file.
 
     >>> read_group_config(['A\n', 'B\n', '\n', 'C\n'])
     GroupConfig(Group('A', 'B'), Group('C'))
     """
-    return GroupConfig(*_read_yield_group_config(group_config_file))
+    return GroupConfig(*_read_yield_group_config_groups(group_config_file))
 
 
-def write_group_config(group_config, file=None):
+def write_group_config(group_config: GroupConfig, file=None) -> None:
     """Write out a group config file.
 
     Writes to std out by default.

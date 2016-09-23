@@ -1,9 +1,12 @@
 """Functions for scoring current pairs based on historical pairings."""
+from typing import Iterable
+
 from .models import Pair
 from .models import PairCounts
 
 
-def score_pairs(pairs, historical_pair_counts):
+def score_pairs(pairs: Iterable[Pair], historical_pair_counts:
+                PairCounts) -> int:
     """Given a current list of pairs, return a score of how many times
     current pairs have been paired together before.
 

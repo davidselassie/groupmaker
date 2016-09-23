@@ -1,12 +1,13 @@
 """Functions for counting pairs in historical groups."""
 from itertools import chain, combinations_with_replacement
+from typing import Iterable
 
 from .models import Group
 from .models import GroupConfig
 from .models import Pair
 
 
-def _tuple_to_pair(t):
+def _tuple_to_pair(t: tuple) -> Pair:
     """Convert a two tuple to a pair.
 
     >>> _tuple_to_pair(('A', 'B'))
@@ -15,7 +16,7 @@ def _tuple_to_pair(t):
     return Pair(*t)
 
 
-def calc_pairs_in_group(group):
+def calc_pairs_in_group(group: Group) -> Iterable[Pair]:
     """Yield all pairs in a group in order.
 
     >>> list(calc_pairs_in_group(Group('A', 'B')))
@@ -25,10 +26,11 @@ def calc_pairs_in_group(group):
     return map(_tuple_to_pair, pair_lists)
 
 
-def calc_pairs_in_group_config(group_config):
+def calc_pairs_in_group_config(group_config: GroupConfig) -> Iterable[Pair]:
     """Yield all pairs in a group config in order.
 
-    >>> list(calc_pairs_in_group_config(GroupConfig(Group('A', 'B'), Group('C'))))
+    >>> list(calc_pairs_in_group_config(GroupConfig(Group('A', 'B'),
+    ...                                             Group('C'))))
     [Pair('A', 'A'), Pair('A', 'B'), Pair('B', 'B'), Pair('C', 'C')]
     """
     return chain.from_iterable(
@@ -36,7 +38,8 @@ def calc_pairs_in_group_config(group_config):
     )
 
 
-def calc_pairs_in_group_configs(group_configs):
+def calc_pairs_in_group_configs(group_configs: Iterable[GroupConfig]) -> \
+        Iterable[Pair]:
     """Yield all pairs in a list of group configs in order.
 
     >>> list(calc_pairs_in_group_configs([

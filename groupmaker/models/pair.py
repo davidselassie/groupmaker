@@ -10,7 +10,7 @@ class Pair:
     Treat as immutable.
     """
 
-    def __init__(self, name_a, name_b):
+    def __init__(self, name_a: str, name_b: str) -> None:
         """Make a new pair.
 
         >>> pair = Pair('A', 'B')
@@ -22,7 +22,7 @@ class Pair:
         """
         self.names = tuple(sorted((name_a, name_b)))
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Pair') -> bool:
         """Return if pairs are equal.
 
         >>> Pair('A', 'B') == Pair('B', 'A')
@@ -35,7 +35,7 @@ class Pair:
     def __hash__(self):
         return hash(self.names)
 
-    def __lt__(self, other):
+    def __lt__(self, other: 'Pair') -> bool:
         """Return if a current pair is before other pair.
 
         >>> Pair('A', 'B') < Pair('A', 'C')
@@ -45,7 +45,7 @@ class Pair:
         """
         return self.names < other.names
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return the literal of a pair.
 
         >>> repr(Pair('A', 'B'))

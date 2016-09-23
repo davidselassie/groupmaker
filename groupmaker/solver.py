@@ -1,4 +1,6 @@
 """Functions for finding best groups."""
+from typing import Iterable
+
 from .generation import generate_all_group_configs
 from .models import Group
 from .models import GroupConfig
@@ -9,7 +11,10 @@ from .pairing import calc_pairs_in_group_config
 from .scoring import score_pairs
 
 
-def find_min_scoring_group_config(group_configs, historical_pair_counts):
+def find_min_scoring_group_config(
+        group_configs: Iterable[GroupConfig], historical_pair_counts:
+        PairCounts
+) -> GroupConfig:
     """Given a list of possible groups and historical pair counts, return which
     has the minimum score.
 
@@ -20,7 +25,9 @@ def find_min_scoring_group_config(group_configs, historical_pair_counts):
     GroupConfig(Group('A', 'C'), Group('B', 'D'))
     """
 
-    def _score_group_config_with_historical_pair_counts(group_config):
+    def _score_group_config_with_historical_pair_counts(
+            group_config: GroupConfig
+    ) -> int:
         return score_pairs(
             calc_pairs_in_group_config(group_config), historical_pair_counts
         )
@@ -30,7 +37,9 @@ def find_min_scoring_group_config(group_configs, historical_pair_counts):
     )
 
 
-def solve_for_min_scoring_groups(students, group_size, historical_pair_counts):
+def solve_for_min_scoring_groups(
+        students: Students, group_size: int, historical_pair_counts: PairCounts
+) -> GroupConfig:
     """Figure out what is the minimum-scoring group config out of all possible
     group configs creatable from a list of students.
 

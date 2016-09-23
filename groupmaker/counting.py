@@ -1,11 +1,12 @@
 """Functions for creating counts of pairs."""
 from collections import Counter
+from typing import Iterable
 
 from .models import Pair
 from .models import PairCounts
 
 
-def count_pairs(pairs):
+def count_pairs(pairs: Iterable[Pair]) -> PairCounts:
     """Calculate a summary of pair counts from a list of pairs.
 
     >>> count_pairs([

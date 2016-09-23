@@ -1,4 +1,6 @@
 """Definition of a group."""
+from typing import Iterable
+
 from ._util_functions import find_duplicates
 
 
@@ -10,7 +12,7 @@ class Group:
     Treat as immutable.
     """
 
-    def __init__(self, *names):
+    def __init__(self, *names: Iterable[str]) -> None:
         """Make a new group.
 
         >>> group = Group('A', 'B')
@@ -31,7 +33,7 @@ class Group:
             )
         self.names = tuple(sorted(names))
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Group') -> bool:
         """Return if groups are equal.
 
         >>> Group('A') == Group('A')
@@ -46,7 +48,7 @@ class Group:
     def __hash__(self):
         return hash(self.names)
 
-    def __lt__(self, other):
+    def __lt__(self, other: 'Group') -> bool:
         """Return if a current group is before other group.
 
         >>> Group('A', 'B') < Group('A', 'C')
@@ -56,7 +58,7 @@ class Group:
         """
         return self.names < other.names
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return the literal of a group.
 
         >>> repr(Group('A', 'B'))

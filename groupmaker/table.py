@@ -6,7 +6,9 @@ from .models import PairCounts
 from .models import Students
 
 
-def print_student_pair_count_matrix(students, pair_counts, file=None):
+def print_student_pair_count_matrix(
+        students: Students, pair_counts: PairCounts, file=None
+):
     """Print out a matrix of pair counts of all students.
 
     >>> print_student_pair_count_matrix(

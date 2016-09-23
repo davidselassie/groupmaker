@@ -1,4 +1,6 @@
 """Definition of a student set."""
+from typing import Iterable
+
 from ._util_functions import find_duplicates
 
 
@@ -8,7 +10,7 @@ class Students:
     Treat as immutable.
     """
 
-    def __init__(self, *names):
+    def __init__(self, *names: Iterable[str]) -> None:
         """Make a new set of students.
 
         >>> students = Students('A', 'B')
@@ -29,7 +31,7 @@ class Students:
             )
         self.names = tuple(sorted(names))
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Students') -> bool:
         """Return if student sets are equal.
 
         >>> Students('A', 'B') == Students('B', 'A')
@@ -42,7 +44,7 @@ class Students:
     def __hash__(self):
         return hash(self.names)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return the literal of a student set.
 
         >>> repr(Students('A', 'B'))

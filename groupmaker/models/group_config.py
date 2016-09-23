@@ -1,5 +1,6 @@
 """Definition of a group config."""
 from itertools import chain
+from typing import Iterable
 
 from ._util_functions import find_duplicates
 from .group import Group
@@ -11,7 +12,7 @@ class GroupConfig:
     Treat as immutable.
     """
 
-    def __init__(self, *groups):
+    def __init__(self, *groups: Iterable[Group]) -> None:
         """Make a new group config.
 
         >>> group_config = GroupConfig(Group('A'), Group('B'))
@@ -35,12 +36,18 @@ class GroupConfig:
             )
         self.groups = tuple(sorted(groups))
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'GroupConfig') -> bool:
         """Return if group configs are equal.
 
         >>> GroupConfig(Group('A')) == GroupConfig(Group('A'))
         True
-        >>> GroupConfig(Group('A'), Group('B')) == GroupConfig(Group('B'), Group('A'))
+        >>> GroupConfig(
+        ...     Group('A'),
+        ...     Group('B')
+        ... ) == GroupConfig(
+        ...     Group('B'),
+        ...     Group('A')
+        ... )
         True
         >>> GroupConfig(Group('A')) == GroupConfig(Group('B'))
         False
@@ -50,17 +57,29 @@ class GroupConfig:
     def __hash__(self):
         return hash(self.groups)
 
-    def __lt__(self, other):
+    def __lt__(self, other: 'GroupConfig') -> bool:
         """Return if a current group config is before other group config.
 
-        >>> GroupConfig(Group('A'), Group('B')) < GroupConfig(Group('A'), Group('C'))
+        >>> GroupConfig(
+        ...     Group('A'),
+        ...     Group('B')
+        ... ) < GroupConfig(
+        ...     Group('A'),
+        ...     Group('C')
+        ... )
         True
-        >>> GroupConfig(Group('A'), Group('D')) < GroupConfig(Group('A'), Group('C'))
+        >>> GroupConfig(
+        ...     Group('A'),
+        ...     Group('D')
+        ... ) < GroupConfig(
+        ...     Group('A'),
+        ...     Group('C')
+        ... )
         False
         """
         return self.groups < other.groups
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return the literal of a group config.
 
         >>> repr(GroupConfig(Group('A', 'B'), Group('C')))
